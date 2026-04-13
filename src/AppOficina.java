@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -166,8 +167,40 @@ public class AppOficina {
         cabecalho();
         
         int opcao = exibirMenuOrdenadores();
-        //Complete com a sua lógica
-        ordenador = null;
+        switch (opcao) {
+            case 1:
+                ordenador = new Bubblesort<>();
+                break;
+            case 2:
+                ordenador= new InsertSort<>();
+                break;
+            case 3:
+                ordenador = new SelectionSort<>();
+                break;
+            case 4:
+                ordenador = new Mergesort<>();
+                break;
+            default:
+                break;
+                 
+        }
+        
+        if (ordenador!=null){
+            opcao = exibirMenuComparadores();
+            Comparator<Produto> comparator;
+            switch (opcao) {
+                case 1:
+                    comparator = new ComparadorPorPadrao();
+                    ordenador.ordenar(produtos, comparator);
+                    break;
+            
+                case 2:
+                    comparator = new ComparadorPorCodigo();
+                    ordenador.ordenar(produtos,comparator);
+                    break;
+            }
+            
+        }
     }
 
     static void embaralharProdutos(){
