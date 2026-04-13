@@ -7,7 +7,7 @@ public class MergeSort<T extends Comparable<T>> implements IOrdenador<T> {
     private double tempoOrdenacao;
     private double inicio;
 
-    private double nanoToMilli = 1.0 / 1_000_000;
+    private final double nanoToMilli = 1.0 / 1_000_000;
 
     @Override
     public int getComparacoes() {
