@@ -81,6 +81,7 @@ public abstract class Produto implements Comparable<Produto> {
         init(desc, precoCusto, MARGEM_PADRAO);
     }
 
+
     /**
      * Retorna o valor de venda do produto, considerando seu preço de custo e margem de lucro
      * @return Valor de venda do produto (double, positivo)
@@ -165,4 +166,8 @@ public abstract class Produto implements Comparable<Produto> {
      * @return Uma string no formato "tipo; descrição;preçoDeCusto;margemDeLucro;[dataDeValidade]"
      */
     public abstract String gerarDadosTexto();
+
+    public String getDescricao() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

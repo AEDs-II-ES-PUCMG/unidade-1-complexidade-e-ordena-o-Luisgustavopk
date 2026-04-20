@@ -43,7 +43,8 @@ public class AppOficina {
     // #region utilidades
     static Scanner teclado;
 
-    
+    static Produto[] produtosOrdenadosPorCodigo;
+    static Produto[] produtosOrdenadosPorDescricao;
 
     static <T extends Number> T lerNumero(String mensagem, Class<T> classe) {
         System.out.print(mensagem + ": ");
@@ -126,17 +127,80 @@ public class AppOficina {
         return dadosCarregados;
     }
 
+    static void inicializarCopiasSorted() {
+        IOrdenador<Produto> ms = new Mergesort<>();
+ 
+        produtosOrdenadosPorCodigo = ms.ordenar(
+                Arrays.copyOf(produtos, quantProdutos),
+                new ComparadorPorCodigo());
+ 
+        produtosOrdenadosPorDescricao = ms.ordenar(
+                Arrays.copyOf(produtos, quantProdutos),
+                new ComparadorPorPadrao());
+    }
+
+       static Produto buscaBinariaPorCodigo(int codigo) {
+        int inicio = 0;
+        int fim = quantProdutos - 1;
+ 
+        while (inicio <= fim) {
+            int meio = (inicio + fim) / 2;
+            int idMeio = produtosOrdenadosPorCodigo[meio].hashCode();
+ 
+            if (idMeio == codigo)
+                return produtosOrdenadosPorCodigo[meio];
+            else if (codigo < idMeio)
+                fim = meio - 1;
+            else
+                inicio = meio + 1;
+        }
+        return null;
+    }
+ 
+
+    static Produto buscaBinariaPorDescricao(String descricao) {
+        int inicio = 0;
+        int fim = quantProdutos - 1;
+ 
+        while (inicio <= fim) {
+            int meio = (inicio + fim) / 2;
+            int cmp = produtosOrdenadosPorDescricao[meio].compareTo(
+                          produtosOrdenadosPorDescricao[meio]); 
+
+            cmp = descricao.compareTo(produtosOrdenadosPorDescricao[meio].getDescricao());
+ 
+            if (cmp == 0)
+                return produtosOrdenadosPorDescricao[meio];
+            else if (cmp < 0)
+                fim = meio - 1;
+            else
+                inicio = meio + 1;
+        }
+        return null;
+    }
 
     static Produto localizarProduto() {
         cabecalho();
         System.out.println("Localizando um produto");
-        int numero = lerNumero("Digite o identificador do produto", Integer.class);
+        System.out.println("1 - Buscar por código");
+        System.out.println("2 - Buscar por descrição");
+        int criterio = lerNumero("Escolha o critério", Integer.class);
+ 
         Produto localizado = null;
-        
-        for (int i = 0; i < quantProdutos && localizado == null; i++) {
-            if (produtos[i].hashCode() == numero)
-                localizado = produtos[i];
+ 
+        switch (criterio) {
+            case 1 -> {
+                int codigo = lerNumero("Digite o código do produto", Integer.class);
+                localizado = buscaBinariaPorCodigo(codigo);
+            }
+            case 2 -> {
+                System.out.print("Digite a descrição do produto: ");
+                String descricao = teclado.nextLine();
+                localizado = buscaBinariaPorDescricao(descricao);
+            }
+            default -> System.out.println("Opção inválida.");
         }
+ 
         return localizado;
     }
 
