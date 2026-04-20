@@ -245,6 +245,22 @@ public class App {
             return;
         }
        //Sua lógica de localização de pedidos premium aqui
+     ordenador = new InsertionSort<>();
+     ordenador.ordenar(pedidosCadastrados);
+     for ( int i = pedidosCadastrados.length ; i>0;i--){
+           if (pedidosCadastrados[i].valorFinal() >= valorCorte){
+                System.out.println(pedidosCadastrados[i].toString());
+           }else{
+             i=0;
+           }
+     }
+     
+
+    //    for ( int i = 0; i<pedidosCadastrados.length;i++){
+    //         if (pedidosCadastrados[i].valorFinal() >= valorCorte){
+    //             System.out.println(pedidosCadastrados[i].toString());
+    //         }
+    //    }
     }
 
     static int exibirMenuOrdenadores() {
